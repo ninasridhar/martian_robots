@@ -1,5 +1,6 @@
 require 'pry'
 require 'grid'
+require 'robot'
 
 class MartianRobots
   def self.initialize
@@ -20,7 +21,7 @@ class MartianRobots
       "
     puts welcome_message
     response = gets("\t\n")
-    parse_instructions(response)
+    output = parse_instructions(response)
   end
 
   def self.parse_instructions(response)
@@ -29,5 +30,15 @@ class MartianRobots
     # split_response[0] are the grid bounds
     bounds = split_response.shift
     grid = Grid.new(bounds)
+
+    # Split response into batches of size 3 to include empty string
+    robots = split_response.each_slice(3).to_a
+
+    robots.each do |robot_details|
+      # robot_details[0] is the starting position
+      robot = Robot.new(robot_details[0], grid)
+      # robot_details[1] are the instruction
+      robot.instruct_to_move(robot_details[1])
+    end
   end
 end
