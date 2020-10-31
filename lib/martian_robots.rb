@@ -1,6 +1,7 @@
 require 'pry'
+require 'grid'
 
-module MartianRobots
+class MartianRobots
   def self.initialize
     welcome_message =
       "
@@ -24,5 +25,9 @@ module MartianRobots
 
   def self.parse_instructions(response)
     split_response = response.split("\n")
+
+    # split_response[0] are the grid bounds
+    bounds = split_response.shift
+    grid = Grid.new(bounds)
   end
 end
