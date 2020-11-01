@@ -46,4 +46,40 @@ RSpec.describe Grid do
       end
     end
   end
+
+  describe '#protect_bounds' do
+    subject(:subject) { grid.protect_bound(bounds) }
+
+    let(:grid) { Grid.new('5 2') }
+    let(:bounds) { [5, 1] }
+
+    it 'protects bounds' do
+      expect{ subject }.to change { grid.protected_bounds.count }.by(1)
+    end
+  end
+
+  describe '#is_protected?' do
+    subject(:subject) { grid.is_protected?(bounds) }
+    let(:grid) { Grid.new('5 2') }
+
+    context 'is protected' do
+      before do
+        grid.protected_bounds.push([5,1, 'S'])
+      end
+
+      let(:bounds) { [5, 1, 'S'] }
+
+      it 'is true' do
+        expect(subject).to be_truthy
+      end
+    end
+
+    context 'is not protected' do
+      let(:bounds) { [5, 2, 'S'] }
+
+      it 'is false' do
+        expect(subject).to be_falsey
+      end
+    end
+  end
 end

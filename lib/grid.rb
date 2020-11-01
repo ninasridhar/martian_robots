@@ -1,13 +1,23 @@
 class Grid
+
   MIN_BOUND = 0
   MAX_BOUND = 50
 
-  attr_accessor :x_bound, :y_bound
+  attr_accessor :x_bound, :y_bound, :protected_bounds
 
   def initialize(bounds)
     bounds = bounds.split(' ')
     @x_bound = get_bound('X', bounds[0].to_i)
     @y_bound = get_bound('Y', bounds[1].to_i)
+    @protected_bounds = []
+  end
+
+  def protect_bound(coordinates)
+    @protected_bounds.push(coordinates)
+  end
+
+  def is_protected?(coordinates)
+    @protected_bounds.include?(coordinates)
   end
 
   private

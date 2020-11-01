@@ -1,6 +1,5 @@
-require 'pry'
-require 'grid'
-require 'robot'
+require_relative 'grid'
+require_relative 'robot'
 
 class MartianRobots
   def self.initialize
@@ -22,10 +21,16 @@ class MartianRobots
     puts welcome_message
     response = gets("\t\n")
     output = parse_instructions(response)
+    puts "
+      OUTPUT:
+    "
+    puts output
   end
 
   def self.parse_instructions(response)
     split_response = response.split("\n")
+
+    output = []
 
     # split_response[0] are the grid bounds
     bounds = split_response.shift
@@ -39,6 +44,8 @@ class MartianRobots
       robot = Robot.new(robot_details[0], grid)
       # robot_details[1] are the instruction
       robot.instruct_to_move(robot_details[1])
+      output.push(robot.get_output)
     end
+    output.join("\n")
   end
 end
